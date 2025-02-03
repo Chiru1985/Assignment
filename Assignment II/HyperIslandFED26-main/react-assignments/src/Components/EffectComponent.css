@@ -1,0 +1,17 @@
+.charactersContainer {
+    width: 500px;
+    border: 2px solid #000;
+    background-color: #b1e3d2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+  }
+  
+  .charactersContainer img {
+    width: 100%;
+    max-width: 350px;
+    height: 400px;
+    object-fit: cover;
+  }
