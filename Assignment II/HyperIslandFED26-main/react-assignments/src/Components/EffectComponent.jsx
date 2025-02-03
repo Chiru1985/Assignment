@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./EffectComponent.css";
 
-const API_URL = "https://thronesapi.com/api/v2/Characters";
-
 const GotCharactersList = () => {
   const [characters, setCharacters] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -11,7 +9,7 @@ const GotCharactersList = () => {
   useEffect(() => {
     const fetchCharacters = async () => {
       try {
-        const response = await fetch(API_URL);
+        const response = await fetch("https://thronesapi.com/api/v2/Characters");
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
@@ -27,22 +25,30 @@ const GotCharactersList = () => {
     fetchCharacters();
   }, []);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  const renderCharacter = (character) => (
+    <li key={character.id}>
+      <img src={character.imageUrl} alt={character.fullName} />
+      <h2>{character.fullName}</h2>
+      <p>{character.title}</p>
+    </li>
+  );
+
+  const renderContent = () => {
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error: {error}</p>;
+
+    return (
+      <ul>
+        {characters.map(renderCharacter)}
+      </ul>
+    );
+  };
 
   return (
-    <div className="container">
+    <center>
       <h1>Game of Thrones Characters</h1>
-      <ul className="character-list">
-        {characters.map(({ id, imageUrl, fullName, title }) => (
-          <li key={id} className="character-item">
-            <img src={imageUrl} alt={fullName} className="character-image" />
-            <h2>{fullName}</h2>
-            <p>{title}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
+      {renderContent()}
+    </center>
   );
 };
 
